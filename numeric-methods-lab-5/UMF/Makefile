@@ -16,7 +16,7 @@ CC            = gcc
 CXX           = g++
 DEFINES       = -DQT_QML_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB
 CFLAGS        = -pipe -g -Wall -W -D_REENTRANT -fPIC $(DEFINES)
-CXXFLAGS      = -pipe -g -std=gnu++11 -Wall -W -D_REENTRANT -fPIC $(DEFINES)
+CXXFLAGS      = -pipe -g -std=gnu++1z -Wall -W -D_REENTRANT -fPIC $(DEFINES)
 INCPATH       = -I. -I/usr/Qt/5.13.0/gcc_64/include -I/usr/Qt/5.13.0/gcc_64/include/QtWidgets -I/usr/Qt/5.13.0/gcc_64/include/QtGui -I/usr/Qt/5.13.0/gcc_64/include/QtCore -I. -isystem /usr/include/libdrm -I. -I/usr/Qt/5.13.0/gcc_64/mkspecs/linux-g++
 QMAKE         = /usr/Qt/5.13.0/gcc_64/bin/qmake
 DEL_FILE      = rm -f
@@ -54,10 +54,14 @@ OBJECTS_DIR   = ./
 
 SOURCES       = main.cpp \
 		mainwindow.cpp \
-		solver.cpp moc_mainwindow.cpp
+		matrix.cpp \
+		parabolic_solver.cpp \
+		tridiagonal.cpp moc_mainwindow.cpp
 OBJECTS       = main.o \
 		mainwindow.o \
-		solver.o \
+		matrix.o \
+		parabolic_solver.o \
+		tridiagonal.o \
 		moc_mainwindow.o
 DIST          = /usr/Qt/5.13.0/gcc_64/mkspecs/features/spec_pre.prf \
 		/usr/Qt/5.13.0/gcc_64/mkspecs/common/unix.conf \
@@ -238,10 +242,14 @@ DIST          = /usr/Qt/5.13.0/gcc_64/mkspecs/features/spec_pre.prf \
 		/usr/Qt/5.13.0/gcc_64/mkspecs/features/yacc.prf \
 		/usr/Qt/5.13.0/gcc_64/mkspecs/features/lex.prf \
 		UMF.pro mainwindow.h \
+		matrix.h \
 		methods.h \
-		solver.h main.cpp \
+		parabolic_solver.h \
+		tridiagonal.h main.cpp \
 		mainwindow.cpp \
-		solver.cpp
+		matrix.cpp \
+		parabolic_solver.cpp \
+		tridiagonal.cpp
 QMAKE_TARGET  = UMF
 DESTDIR       = 
 TARGET        = UMF
@@ -627,8 +635,8 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents /usr/Qt/5.13.0/gcc_64/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents mainwindow.h methods.h solver.h $(DISTDIR)/
-	$(COPY_FILE) --parents main.cpp mainwindow.cpp solver.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents mainwindow.h matrix.h methods.h parabolic_solver.h tridiagonal.h $(DISTDIR)/
+	$(COPY_FILE) --parents main.cpp mainwindow.cpp matrix.cpp parabolic_solver.cpp tridiagonal.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents mainwindow.ui $(DISTDIR)/
 
 
@@ -659,7 +667,7 @@ compiler_moc_predefs_make_all: moc_predefs.h
 compiler_moc_predefs_clean:
 	-$(DEL_FILE) moc_predefs.h
 moc_predefs.h: /usr/Qt/5.13.0/gcc_64/mkspecs/features/data/dummy.cpp
-	g++ -pipe -g -std=gnu++11 -Wall -W -dM -E -o moc_predefs.h /usr/Qt/5.13.0/gcc_64/mkspecs/features/data/dummy.cpp
+	g++ -pipe -g -std=gnu++1z -Wall -W -dM -E -o moc_predefs.h /usr/Qt/5.13.0/gcc_64/mkspecs/features/data/dummy.cpp
 
 compiler_moc_header_make_all: moc_mainwindow.cpp
 compiler_moc_header_clean:
@@ -800,9 +808,9 @@ compiler_clean: compiler_moc_predefs_clean compiler_moc_header_clean compiler_ui
 
 ####### Compile
 
-main.o: main.cpp solver.h \
-		mainwindow.h \
+main.o: main.cpp parabolic_solver.h \
 		methods.h \
+		mainwindow.h \
 		/usr/Qt/5.13.0/gcc_64/include/QtWidgets/QMainWindow \
 		/usr/Qt/5.13.0/gcc_64/include/QtWidgets/qmainwindow.h \
 		/usr/Qt/5.13.0/gcc_64/include/QtWidgets/qtwidgetsglobal.h \
@@ -918,7 +926,9 @@ main.o: main.cpp solver.h \
 		/usr/Qt/5.13.0/gcc_64/include/QtCore/qeventloop.h \
 		/usr/Qt/5.13.0/gcc_64/include/QtWidgets/qdesktopwidget.h \
 		/usr/Qt/5.13.0/gcc_64/include/QtGui/qguiapplication.h \
-		/usr/Qt/5.13.0/gcc_64/include/QtGui/qinputmethod.h
+		/usr/Qt/5.13.0/gcc_64/include/QtGui/qinputmethod.h \
+		/usr/Qt/5.13.0/gcc_64/include/QtCore/QProcess \
+		/usr/Qt/5.13.0/gcc_64/include/QtCore/qprocess.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o main.cpp
 
 mainwindow.o: mainwindow.cpp mainwindow.h \
@@ -1035,8 +1045,18 @@ mainwindow.o: mainwindow.cpp mainwindow.h \
 		ui_mainwindow.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o mainwindow.o mainwindow.cpp
 
-solver.o: solver.cpp solver.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o solver.o solver.cpp
+matrix.o: matrix.cpp matrix.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o matrix.o matrix.cpp
+
+parabolic_solver.o: parabolic_solver.cpp parabolic_solver.h \
+		methods.h \
+		matrix.h \
+		tridiagonal.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o parabolic_solver.o parabolic_solver.cpp
+
+tridiagonal.o: tridiagonal.cpp tridiagonal.h \
+		matrix.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o tridiagonal.o tridiagonal.cpp
 
 moc_mainwindow.o: moc_mainwindow.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_mainwindow.o moc_mainwindow.cpp

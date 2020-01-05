@@ -27,7 +27,12 @@ void MainWindow::on_pushButton_clicked()
     K = ui->lineEdit_2->text().toStdString();
     l = ui->lineEdit_3->text().toStdString();
     T = ui->lineEdit_4->text().toStdString();
-    if(ui->radioButton->isChecked())
+    a = ui->lineEdit_5->text().toStdString();
+    if(ui->radioButton_4->isChecked())
+    {
+        method = MethodName::Analytic;
+    }
+    else if(ui->radioButton->isChecked())
     {
         method = MethodName::Explicit;
     }
@@ -59,8 +64,8 @@ void MainWindow::on_pushButton_clicked()
     }
 
     config_file << N << " " << K << std::endl;
-    config_file << l << " " << T << std::endl;
+    config_file << l << " " << T << " " << a << std::endl;
     config_file << method << std::endl;
-    ui->~MainWindow();
+    this->close();
 }
 

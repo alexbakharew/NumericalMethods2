@@ -21,7 +21,7 @@ private slots:
 
 private:
     std::string N, K, T;
-    std::string l;
+    std::string l, a;
     MethodName method;
     Ui::MainWindow *ui;
 };

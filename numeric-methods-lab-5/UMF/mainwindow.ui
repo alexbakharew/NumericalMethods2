@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>468</width>
-    <height>261</height>
+    <height>282</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -15,7 +15,45 @@
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout">
-    <item row="0" column="2" rowspan="4">
+    <item row="2" column="1">
+     <widget class="QLineEdit" name="lineEdit_2">
+      <property name="text">
+       <string>20</string>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="1">
+     <widget class="QLineEdit" name="lineEdit_3">
+      <property name="text">
+       <string>3.14159</string>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="4">
+     <widget class="QRadioButton" name="radioButton">
+      <property name="text">
+       <string>Explicit</string>
+      </property>
+      <property name="checked">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
+    <item row="5" column="0" alignment="Qt::AlignHCenter">
+     <widget class="QLabel" name="label_5">
+      <property name="text">
+       <string>a = </string>
+      </property>
+     </widget>
+    </item>
+    <item row="5" column="1">
+     <widget class="QLineEdit" name="lineEdit_5">
+      <property name="text">
+       <string>0.2</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="2" rowspan="5">
      <spacer name="verticalSpacer_2">
       <property name="orientation">
        <enum>Qt::Vertical</enum>
@@ -28,28 +66,21 @@
       </property>
      </spacer>
     </item>
-    <item row="0" column="1">
+    <item row="1" column="1">
      <widget class="QLineEdit" name="lineEdit">
       <property name="text">
-       <string>100</string>
+       <string>10</string>
       </property>
      </widget>
     </item>
-    <item row="3" column="1">
-     <widget class="QLineEdit" name="lineEdit_4">
+    <item row="3" column="0" alignment="Qt::AlignHCenter|Qt::AlignVCenter">
+     <widget class="QLabel" name="label_3">
       <property name="text">
-       <string>20</string>
+       <string>l = </string>
       </property>
      </widget>
     </item>
-    <item row="0" column="4" colspan="2" alignment="Qt::AlignHCenter|Qt::AlignVCenter">
-     <widget class="QLabel" name="label_8">
-      <property name="text">
-       <string>Choose solution method</string>
-      </property>
-     </widget>
-    </item>
-    <item row="4" column="0">
+    <item row="6" column="0">
      <spacer name="horizontalSpacer">
       <property name="orientation">
        <enum>Qt::Horizontal</enum>
@@ -62,70 +93,14 @@
       </property>
      </spacer>
     </item>
-    <item row="2" column="0" alignment="Qt::AlignHCenter|Qt::AlignVCenter">
-     <widget class="QLabel" name="label_3">
+    <item row="4" column="1">
+     <widget class="QLineEdit" name="lineEdit_4">
       <property name="text">
-       <string>l = </string>
+       <string>20</string>
       </property>
      </widget>
     </item>
-    <item row="1" column="1">
-     <widget class="QLineEdit" name="lineEdit_2">
-      <property name="text">
-       <string>200</string>
-      </property>
-     </widget>
-    </item>
-    <item row="2" column="1">
-     <widget class="QLineEdit" name="lineEdit_3">
-      <property name="text">
-       <string>3.14159</string>
-      </property>
-     </widget>
-    </item>
-    <item row="3" column="0" alignment="Qt::AlignHCenter|Qt::AlignVCenter">
-     <widget class="QLabel" name="label_4">
-      <property name="text">
-       <string>T = </string>
-      </property>
-     </widget>
-    </item>
-    <item row="1" column="0" alignment="Qt::AlignHCenter|Qt::AlignVCenter">
-     <widget class="QLabel" name="label_2">
-      <property name="text">
-       <string>K = </string>
-      </property>
-     </widget>
-    </item>
-    <item row="0" column="0" alignment="Qt::AlignHCenter|Qt::AlignVCenter">
-     <widget class="QLabel" name="label">
-      <property name="text">
-       <string>N = </string>
-      </property>
-     </widget>
-    </item>
-    <item row="1" column="4">
-     <widget class="QRadioButton" name="radioButton">
-      <property name="text">
-       <string>Explicit</string>
-      </property>
-     </widget>
-    </item>
-    <item row="2" column="4">
-     <widget class="QRadioButton" name="radioButton_2">
-      <property name="text">
-       <string>Imlicit</string>
-      </property>
-     </widget>
-    </item>
-    <item row="3" column="4">
-     <widget class="QRadioButton" name="radioButton_3">
-      <property name="text">
-       <string>Crank-Nikolsn</string>
-      </property>
-     </widget>
-    </item>
-    <item row="4" column="5">
+    <item row="6" column="5">
      <spacer name="horizontalSpacer_2">
       <property name="orientation">
        <enum>Qt::Horizontal</enum>
@@ -138,10 +113,59 @@
       </property>
      </spacer>
     </item>
-    <item row="4" column="1" colspan="4">
+    <item row="4" column="0" alignment="Qt::AlignHCenter|Qt::AlignVCenter">
+     <widget class="QLabel" name="label_4">
+      <property name="text">
+       <string>T = </string>
+      </property>
+     </widget>
+    </item>
+    <item row="6" column="1" colspan="4">
      <widget class="QPushButton" name="pushButton">
       <property name="text">
        <string>Solve</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="4">
+     <widget class="QRadioButton" name="radioButton_4">
+      <property name="text">
+       <string>Analytic</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="4" colspan="2" alignment="Qt::AlignHCenter|Qt::AlignVCenter">
+     <widget class="QLabel" name="label_8">
+      <property name="text">
+       <string>Choose solution method</string>
+      </property>
+     </widget>
+    </item>
+    <item row="4" column="4">
+     <widget class="QRadioButton" name="radioButton_3">
+      <property name="text">
+       <string>Crank-Nikolsn</string>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="0" alignment="Qt::AlignHCenter|Qt::AlignVCenter">
+     <widget class="QLabel" name="label_2">
+      <property name="text">
+       <string>K = </string>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="4">
+     <widget class="QRadioButton" name="radioButton_2">
+      <property name="text">
+       <string>Implicit</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="0" alignment="Qt::AlignHCenter|Qt::AlignVCenter">
+     <widget class="QLabel" name="label">
+      <property name="text">
+       <string>N = </string>
       </property>
      </widget>
     </item>

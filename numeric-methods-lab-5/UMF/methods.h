@@ -3,7 +3,8 @@
 
 enum MethodName
 {
-    Implicit = 0,
+    Analytic = 0,
+    Implicit,
     Explicit,
     Crank_Nikolsn
 };

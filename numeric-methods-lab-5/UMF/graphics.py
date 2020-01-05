@@ -1,45 +1,53 @@
 import matplotlib.pyplot as plt
+import matplotlib.patches as mpatches
 import math
-from numpy import *
-def func(x, t):
-    return math.sin(t) * math.cos(x)
 
+def func(a, x, t):
+    return math.exp( - a * t) * math.cos(x)
+
+colors = ["b", "g", "r", "c", "y"]
 def main():
-
+    color_count = 0
     COUNT = 3 # Amount of graphics
+    vec = []
     with open("res.txt") as input:
         N, K = input.readline().strip("\n").split(" ")
-        l, T = input.readline().strip("\n").split(" ")
-        lines = input.readlines()
-        line_count = 1
-        vec = []
-        lines.reverse()
-        for line in lines:
-            if line_count % int((int(K) / COUNT)) == 0:
-                vec.append(line)
-            line_count += 1
-    h = float(l) / int(N)
-    
-    x_values = []
-    y_values = []
+        l, T, a = input.readline().strip("\n").split(" ")
+        curr_str = input.readline()
+        str_count = 0
+        while len(curr_str) != 0:
+            if str_count % (int(int(K) / COUNT)) == 0:
+                vec.append(curr_str)
+            curr_str = input.readline()
+            str_count += 1
 
-
+    h = float(l) / float(N)
+    x = []
+    y = []
+    handles = []
     for i in range(int(N)):
-        x_values.append(h * i)
-        y_values.append(func(h * i, int(T)))
+        x.append(h * i)
+        y.append(func(float(a), h * i, int(T)))
+    plt.plot(x, y, color=colors[color_count])
+    plot_label = mpatches.Patch(color=colors[color_count], label='Analytic')
+    color_count += 1
+    handles.append(plot_label)
 
-    plt.plot(x_values, y_values)
-
-    for line in vec:
-        y_values.clear()
-        for val in line.strip("\n").split(" "):
-            try:
-                y_values.append(float(val))
-            except ValueError:
-                continue
-        print(y_values)
-        plt.plot(x_values, y_values)
-
+    for i in range(COUNT):
+        y.clear()
+        for val in vec[i].strip("\n").split(" "):
+            if val != "":
+                y.append(float(val))
+        plt.plot(x, y, color = colors[color_count])
+        plot_label = mpatches.Patch(color=colors[color_count], label='Numeric' + str(i))
+        color_count += 1
+        handles.append(plot_label)
+        
+    plt.ylabel('value')
+    plt.xlabel('length')
+    plt.legend(handles=handles)
     plt.show()
+    
+
 if __name__ == "__main__":
     main()
