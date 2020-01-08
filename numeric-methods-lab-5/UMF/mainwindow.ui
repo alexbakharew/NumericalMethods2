@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>468</width>
-    <height>282</height>
+    <width>501</width>
+    <height>333</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -15,20 +15,6 @@
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout">
-    <item row="2" column="1">
-     <widget class="QLineEdit" name="lineEdit_2">
-      <property name="text">
-       <string>20</string>
-      </property>
-     </widget>
-    </item>
-    <item row="3" column="1">
-     <widget class="QLineEdit" name="lineEdit_3">
-      <property name="text">
-       <string>3.14159</string>
-      </property>
-     </widget>
-    </item>
     <item row="2" column="4">
      <widget class="QRadioButton" name="radioButton">
       <property name="text">
@@ -36,20 +22,6 @@
       </property>
       <property name="checked">
        <bool>true</bool>
-      </property>
-     </widget>
-    </item>
-    <item row="5" column="0" alignment="Qt::AlignHCenter">
-     <widget class="QLabel" name="label_5">
-      <property name="text">
-       <string>a = </string>
-      </property>
-     </widget>
-    </item>
-    <item row="5" column="1">
-     <widget class="QLineEdit" name="lineEdit_5">
-      <property name="text">
-       <string>0.2</string>
       </property>
      </widget>
     </item>
@@ -66,20 +38,6 @@
       </property>
      </spacer>
     </item>
-    <item row="1" column="1">
-     <widget class="QLineEdit" name="lineEdit">
-      <property name="text">
-       <string>10</string>
-      </property>
-     </widget>
-    </item>
-    <item row="3" column="0" alignment="Qt::AlignHCenter|Qt::AlignVCenter">
-     <widget class="QLabel" name="label_3">
-      <property name="text">
-       <string>l = </string>
-      </property>
-     </widget>
-    </item>
     <item row="6" column="0">
      <spacer name="horizontalSpacer">
       <property name="orientation">
@@ -93,13 +51,6 @@
       </property>
      </spacer>
     </item>
-    <item row="4" column="1">
-     <widget class="QLineEdit" name="lineEdit_4">
-      <property name="text">
-       <string>20</string>
-      </property>
-     </widget>
-    </item>
     <item row="6" column="5">
      <spacer name="horizontalSpacer_2">
       <property name="orientation">
@@ -112,13 +63,6 @@
        </size>
       </property>
      </spacer>
-    </item>
-    <item row="4" column="0" alignment="Qt::AlignHCenter|Qt::AlignVCenter">
-     <widget class="QLabel" name="label_4">
-      <property name="text">
-       <string>T = </string>
-      </property>
-     </widget>
     </item>
     <item row="6" column="1" colspan="4">
      <widget class="QPushButton" name="pushButton">
@@ -148,13 +92,6 @@
       </property>
      </widget>
     </item>
-    <item row="2" column="0" alignment="Qt::AlignHCenter|Qt::AlignVCenter">
-     <widget class="QLabel" name="label_2">
-      <property name="text">
-       <string>K = </string>
-      </property>
-     </widget>
-    </item>
     <item row="3" column="4">
      <widget class="QRadioButton" name="radioButton_2">
       <property name="text">
@@ -162,10 +99,80 @@
       </property>
      </widget>
     </item>
-    <item row="1" column="0" alignment="Qt::AlignHCenter|Qt::AlignVCenter">
+    <item row="0" column="1">
+     <widget class="QLineEdit" name="lineEdit">
+      <property name="text">
+       <string>10</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="1">
+     <widget class="QLineEdit" name="lineEdit_2">
+      <property name="text">
+       <string>20</string>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="1">
+     <widget class="QLineEdit" name="lineEdit_3">
+      <property name="text">
+       <string>3.14159</string>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="1">
+     <widget class="QLineEdit" name="lineEdit_4">
+      <property name="text">
+       <string>20</string>
+      </property>
+     </widget>
+    </item>
+    <item row="4" column="1">
+     <widget class="QLineEdit" name="lineEdit_5">
+      <property name="text">
+       <string>0.2</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="0" alignment="Qt::AlignHCenter">
      <widget class="QLabel" name="label">
       <property name="text">
        <string>N = </string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="0" alignment="Qt::AlignHCenter">
+     <widget class="QLabel" name="label_2">
+      <property name="text">
+       <string>K = </string>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="0" alignment="Qt::AlignHCenter">
+     <widget class="QLabel" name="label_3">
+      <property name="text">
+       <string>l = </string>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="0" alignment="Qt::AlignHCenter">
+     <widget class="QLabel" name="label_4">
+      <property name="text">
+       <string>T = </string>
+      </property>
+     </widget>
+    </item>
+    <item row="4" column="0" alignment="Qt::AlignHCenter">
+     <widget class="QLabel" name="label_5">
+      <property name="text">
+       <string>a = </string>
+      </property>
+     </widget>
+    </item>
+    <item row="5" column="1">
+     <widget class="QLabel" name="label_6">
+      <property name="text">
+       <string>TextLabel</string>
       </property>
      </widget>
     </item>
@@ -176,7 +183,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>468</width>
+     <width>501</width>
      <height>22</height>
     </rect>
    </property>

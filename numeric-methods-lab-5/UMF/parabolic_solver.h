@@ -1,5 +1,5 @@
-#ifndef SOLVER_H
-#define SOLVER_H
+#ifndef ParabolicSolver_H
+#define ParabolicSolver_H
 #include <vector>
 #include <string>
 #include "methods.h"
@@ -12,12 +12,12 @@ enum ApproximationType
     Third = 3
 };
 
-class Solver
+class ParabolicSolver
 {
     friend class SolutionSaver;
 public:
-    Solver() {}
-    Solver(int N, int K, double l, int T, double a, MethodName(method));
+    ParabolicSolver() {}
+    ParabolicSolver(int N, int K, double l, int T, double a, MethodName(method));
     void InitMesh();
     void AnalyticSolve() const;
     void ExplicitSolve() const;
@@ -32,7 +32,7 @@ private:
 private:
     mutable std::vector<std::vector<double>> mesh;
     int N, K, T;
-    double h, tau, l, a, teta;
+    double h, tau, l, a, sigma, teta;
     MethodName MethName;
     ApproximationType ApprType;
 };
@@ -41,7 +41,7 @@ class SolutionSaver
 {
 public:
     SolutionSaver(){}
-    static bool SaveResults(const std::string &path, const Solver& slv);
+    static bool SaveResults(const std::string &path, const ParabolicSolver& slv);
 };
 
-#endif // SOLVER_H
+#endif // ParabolicSolver_H

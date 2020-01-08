@@ -69,3 +69,8 @@ void MainWindow::on_pushButton_clicked()
     this->close();
 }
 
+//double CalculateSigma()
+void MainWindow::on_lineEdit_textEdited(const QString &arg1)
+{
+    ui->label_6->setText("Jopa");
+}

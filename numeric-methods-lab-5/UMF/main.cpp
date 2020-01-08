@@ -31,7 +31,7 @@ int main(int argc, char* argv[])
         return -1;
     }
 
-    Solver slv(N, K, l, T, a, MethodName(method));
+    ParabolicSolver slv(N, K, l, T, a, MethodName(method));
     slv.InitMesh();
     if(method == MethodName::Analytic)
         slv.AnalyticSolve();

@@ -52,12 +52,14 @@ OBJECTS_DIR   = ./
 
 ####### Files
 
-SOURCES       = main.cpp \
+SOURCES       = basic_solver.cpp \
+		main.cpp \
 		mainwindow.cpp \
 		matrix.cpp \
 		parabolic_solver.cpp \
 		tridiagonal.cpp moc_mainwindow.cpp
-OBJECTS       = main.o \
+OBJECTS       = basic_solver.o \
+		main.o \
 		mainwindow.o \
 		matrix.o \
 		parabolic_solver.o \
@@ -241,11 +243,13 @@ DIST          = /usr/Qt/5.13.0/gcc_64/mkspecs/features/spec_pre.prf \
 		/usr/Qt/5.13.0/gcc_64/mkspecs/features/exceptions.prf \
 		/usr/Qt/5.13.0/gcc_64/mkspecs/features/yacc.prf \
 		/usr/Qt/5.13.0/gcc_64/mkspecs/features/lex.prf \
-		UMF.pro mainwindow.h \
+		UMF.pro basic_solver.h \
+		mainwindow.h \
 		matrix.h \
 		methods.h \
 		parabolic_solver.h \
-		tridiagonal.h main.cpp \
+		tridiagonal.h basic_solver.cpp \
+		main.cpp \
 		mainwindow.cpp \
 		matrix.cpp \
 		parabolic_solver.cpp \
@@ -635,8 +639,8 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents /usr/Qt/5.13.0/gcc_64/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents mainwindow.h matrix.h methods.h parabolic_solver.h tridiagonal.h $(DISTDIR)/
-	$(COPY_FILE) --parents main.cpp mainwindow.cpp matrix.cpp parabolic_solver.cpp tridiagonal.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents basic_solver.h mainwindow.h matrix.h methods.h parabolic_solver.h tridiagonal.h $(DISTDIR)/
+	$(COPY_FILE) --parents basic_solver.cpp main.cpp mainwindow.cpp matrix.cpp parabolic_solver.cpp tridiagonal.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents mainwindow.ui $(DISTDIR)/
 
 
@@ -807,6 +811,9 @@ compiler_lex_clean:
 compiler_clean: compiler_moc_predefs_clean compiler_moc_header_clean compiler_uic_clean 
 
 ####### Compile
+
+basic_solver.o: basic_solver.cpp basic_solver.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o basic_solver.o basic_solver.cpp
 
 main.o: main.cpp parabolic_solver.h \
 		methods.h \
