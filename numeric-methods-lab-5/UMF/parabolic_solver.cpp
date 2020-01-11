@@ -15,7 +15,7 @@ double ParabolicSolver::boundary_condition_x0(double t) const
 
 double ParabolicSolver::boundary_condition_xl(double t) const
 {
-    return std::exp(- a * t);
+    return - std::exp(- a * t);
 }
 
 double ParabolicSolver::AnalyticFunction(double x, double t) const
@@ -25,7 +25,7 @@ double ParabolicSolver::AnalyticFunction(double x, double t) const
 
 void ParabolicSolver::AnalyticSolve() const
 {
-    for(int i = K - 2; i >= 0; --i)
+    for(int i = K - 1; i >= 0; --i)
     {
         for(int j = 0; j < N; ++j)
         {
@@ -40,7 +40,7 @@ void ParabolicSolver::ExplicitSolve() const
     {
         for(int j = 1; j < N - 1; ++j)
         {
-            mesh[i][j] = sigma * mesh[i + 1][j + 1] + (1 - 2 * sigma) * mesh[i + 1][j] + sigma * mesh[i + 1][j - 1];
+            mesh[i][j] = sigma * (mesh[i + 1][j + 1] - 2 * mesh[i + 1][j] + mesh[i + 1][j - 1]) + mesh[i + 1][j];
             //            if(ApprType == ApproximationType::Zero)
             //            {
             //                mesh[i][0] = boundary_condition_x0(i * h);

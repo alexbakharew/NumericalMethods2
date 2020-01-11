@@ -74,18 +74,18 @@ double ParabolicInterface::CalculateSigma() const
 {
     double N, K, l, T, a;
     try {
-        N = stof(ui->lineEdit->text().toStdString());
-        K = stof(ui->lineEdit_2->text().toStdString());
-        l = stof(ui->lineEdit_3->text().toStdString());
-        T = stof(ui->lineEdit_4->text().toStdString());
-        a = stof(ui->lineEdit_5->text().toStdString());
+        N = stod(ui->lineEdit->text().toStdString());
+        K = stod(ui->lineEdit_2->text().toStdString());
+        l = stod(ui->lineEdit_3->text().toStdString());
+        T = stod(ui->lineEdit_4->text().toStdString());
+        a = stod(ui->lineEdit_5->text().toStdString());
     } catch (...) {
         return 0;
     }
-    auto tau = T / K;
-    auto h = l / N;
-
-    return a * a * tau / h * h;
+    double tau = T / K;
+    double h = l / N;
+    auto tmp = (a * a * tau) /( h * h);
+    return tmp;
 }
 void ParabolicInterface::on_lineEdit_textEdited(const QString &arg1)
 {

@@ -29,7 +29,7 @@ protected:
     virtual double boundary_condition_x0(double t) const = 0;
     virtual double boundary_condition_xl(double t) const = 0;
 
-    mutable std::vector<std::vector<double>> mesh;
+    mutable std::vector<std::vector<long double>> mesh;
     int N, K, T;
     double h, tau, l, a, sigma, teta;
     MethodName MethName;

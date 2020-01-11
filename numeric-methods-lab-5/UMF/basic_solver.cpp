@@ -10,10 +10,10 @@ BasicSolver::BasicSolver(int N, int K, double l, int T, double a, MethodName(met
 }
 void BasicSolver::InitMesh()
 {
-   mesh = std::vector<std::vector<double>>(K, std::vector<double>(N, 0.0));
+   mesh = std::vector<std::vector<long double>>(K, std::vector<long double>(N, 0.0));
    h = double(l) / N;
    tau = double(T) / K;
-   sigma = a * a * tau / double(h * h);
+   sigma = (a * a * tau) / (h * h);
    teta = .5;
    for(int i = 0; i < N; ++i)
    {
@@ -22,7 +22,7 @@ void BasicSolver::InitMesh()
    ApprType = ApproximationType::Zero; // When few approximation types will be added, this line will be deleted
    if(ApprType == ApproximationType::Zero)
    {
-       for(int i = 0; i < K - 1; ++i)
+       for(int i = K - 2; i >= 0; --i)
        {
            mesh[i][0] = boundary_condition_x0(i * tau);
            mesh[i][N - 1] = boundary_condition_xl(i * tau);
