@@ -10,13 +10,16 @@ enum ApproximationType
     Second = 2,
     Third = 3
 };
+
 class BasicSolver// It is not a pure abstract class
 {
+    friend class SolutionSaver;
 public:
-    BasicSolver(int N, int K, double l, int T, double a, MethodName(method)) {}
+    BasicSolver(){}
+    explicit BasicSolver(int N, int K, double l, int T, double a, MethodName(method));
     virtual ~BasicSolver() {}
     void InitMesh();
-    virtual void AnalyticSolve() const {}
+    virtual void AnalyticSolve() const = 0;
     virtual void ExplicitSolve() const = 0;
     virtual void ImplicitSolve() const = 0;
     virtual void Crank_Nikolsn() const = 0;

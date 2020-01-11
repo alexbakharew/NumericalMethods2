@@ -5,27 +5,36 @@
 #include <QMessageBox>
 #include <string>
 namespace Ui {
-class MainWindow;
+class ParabolicInterface;
 }
 
-class MainWindow : public QMainWindow
+class ParabolicInterface : public QMainWindow
 {
     Q_OBJECT
 
 public:
-    explicit MainWindow(QWidget *parent = nullptr);
-    ~MainWindow();
+    explicit ParabolicInterface(QWidget *parent = nullptr);
+    ~ParabolicInterface();
 
 private slots:
     void on_pushButton_clicked();
 
     void on_lineEdit_textEdited(const QString &arg1);
 
+    void on_lineEdit_3_textChanged(const QString &arg1);
+
+    void on_lineEdit_2_textChanged(const QString &arg1);
+
+    void on_lineEdit_4_textChanged(const QString &arg1);
+
+    void on_lineEdit_5_textChanged(const QString &arg1);
+
 private:
+    double CalculateSigma() const;
     std::string N, K, T;
     std::string l, a;
     MethodName method;
-    Ui::MainWindow *ui;
+    Ui::ParabolicInterface* ui;
 };
 
 #endif // MAINWINDOW_H

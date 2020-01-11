@@ -1,42 +1,8 @@
 #include <cmath>
-#include <fstream>
-#include <iomanip>
 #include <iostream>
 #include "parabolic_solver.h"
 #include "matrix.h"
 #include "tridiagonal.h"
-ParabolicSolver::ParabolicSolver(int N, int K, double l, int T, double a, MethodName(method))
-{
-    this->N = N;
-    this->K = K;
-    this->l = l;
-    this->T = T;
-    this->a = a;
-    this->MethName = method;
-}
-
-void ParabolicSolver::InitMesh()
-{
-   mesh = std::vector<std::vector<double>>(K, std::vector<double>(N, 0.0));
-   h = double(l) / N;
-   tau = double(T) / K;
-   sigma = a * a * tau / double(h * h);
-   teta = .5;
-   for(int i = 0; i < N; ++i)
-   {
-       mesh[K - 1][i] = initial_condition_t0(i * h);
-   }
-   ApprType = ApproximationType::Zero; // When few approximation types will be added, this line will be deleted
-   if(ApprType == ApproximationType::Zero)
-   {
-       for(int i = 0; i < K - 1; ++i)
-       {
-           mesh[i][0] = boundary_condition_x0(i * tau);//tau ?
-           mesh[i][N - 1] = boundary_condition_xl(i * tau);// tau ?
-       }
-   }
-}
-
 double ParabolicSolver::initial_condition_t0(double x) const
 {
     return std::cos(x);
@@ -163,22 +129,4 @@ void ParabolicSolver::Crank_Nikolsn() const
         }
     }
 }
-bool SolutionSaver::SaveResults(const std::string &path, const ParabolicSolver &slv)
-{
-    std::fstream output(path, std::ios::out);
-    if(!output.is_open())
-        return false;
-    output << std::setprecision(3) << std::fixed;
-    output << slv.N << " " << slv.K << std::endl;
-    output << slv.l << " " << slv.T  << " " << slv.a << std::endl;
-    for(size_t i = 0; i < slv.K; ++i)
-    {
-        for(size_t j = 0; j < slv.N; ++j)
-        {
-            auto tmp = slv.mesh[i][j];
-            output << tmp << " ";
-        }
-        output << std::endl;
-    }
-    return true;
-}
+

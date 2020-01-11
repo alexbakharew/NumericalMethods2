@@ -1,19 +1,20 @@
-#include "mainwindow.h"
-#include "ui_mainwindow.h"
+#include "parabolic_interface.h"
+#include "ui_parabolic_interface.h"
 #include <fstream>
-MainWindow::MainWindow(QWidget *parent) :
+ParabolicInterface::ParabolicInterface(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::MainWindow)
+    ui(new Ui::ParabolicInterface)
 {
     ui->setupUi(this);
+    ui->label_6->setText(std::to_string(CalculateSigma()).c_str());
 }
 
-MainWindow::~MainWindow()
+ParabolicInterface::~ParabolicInterface()
 {
     delete ui;
 }
 
-void MainWindow::on_pushButton_clicked()
+void ParabolicInterface::on_pushButton_clicked()
 {
     if(ui->lineEdit->text().isEmpty() || ui->lineEdit_2->text().isEmpty() ||
             ui->lineEdit_3->text().isEmpty() || ui->lineEdit_4->text().isEmpty())
@@ -69,8 +70,44 @@ void MainWindow::on_pushButton_clicked()
     this->close();
 }
 
-//double CalculateSigma()
-void MainWindow::on_lineEdit_textEdited(const QString &arg1)
+double ParabolicInterface::CalculateSigma() const
 {
-    ui->label_6->setText("Jopa");
+    double N, K, l, T, a;
+    try {
+        N = stof(ui->lineEdit->text().toStdString());
+        K = stof(ui->lineEdit_2->text().toStdString());
+        l = stof(ui->lineEdit_3->text().toStdString());
+        T = stof(ui->lineEdit_4->text().toStdString());
+        a = stof(ui->lineEdit_5->text().toStdString());
+    } catch (...) {
+        return 0;
+    }
+    auto tau = T / K;
+    auto h = l / N;
+
+    return a * a * tau / h * h;
+}
+void ParabolicInterface::on_lineEdit_textEdited(const QString &arg1)
+{
+    ui->label_6->setText(std::to_string(CalculateSigma()).c_str());
+}
+
+void ParabolicInterface::on_lineEdit_2_textChanged(const QString &arg1)
+{
+    ui->label_6->setText(std::to_string(CalculateSigma()).c_str());
+}
+
+void ParabolicInterface::on_lineEdit_3_textChanged(const QString &arg1)
+{
+    ui->label_6->setText(std::to_string(CalculateSigma()).c_str());
+}
+
+void ParabolicInterface::on_lineEdit_4_textChanged(const QString &arg1)
+{
+    ui->label_6->setText(std::to_string(CalculateSigma()).c_str());
+}
+
+void ParabolicInterface::on_lineEdit_5_textChanged(const QString &arg1)
+{
+    ui->label_6->setText(std::to_string(CalculateSigma()).c_str());
 }

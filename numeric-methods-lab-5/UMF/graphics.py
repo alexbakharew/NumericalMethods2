@@ -1,15 +1,18 @@
 import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
 import math
-
+import os
 def func(a, x, t):
     return math.exp( - a * t) * math.cos(x)
 
 colors = ["b", "g", "r", "c", "y"]
+config_name = "res.txt"
 def main():
     color_count = 0
     COUNT = 3 # Amount of graphics
     vec = []
+    if os.stat(config_name).st_size == 0:
+        return 0
     with open("res.txt") as input:
         N, K = input.readline().strip("\n").split(" ")
         l, T, a = input.readline().strip("\n").split(" ")
