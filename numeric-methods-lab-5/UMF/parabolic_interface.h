@@ -29,10 +29,18 @@ private slots:
 
     void on_lineEdit_5_textChanged(const QString &arg1);
 
+    void on_radioButton_4_clicked();
+
+    void on_radioButton_clicked();
+
+    void on_radioButton_2_clicked();
+
+    void on_radioButton_3_clicked();
+
 private:
     double CalculateSigma() const;
     std::string N, K, T;
-    std::string l, a;
+    std::string l, a, teta;
     MethodName method;
     Ui::ParabolicInterface* ui;
 };

@@ -7,6 +7,8 @@ ParabolicInterface::ParabolicInterface(QWidget *parent) :
 {
     ui->setupUi(this);
     ui->label_6->setText(std::to_string(CalculateSigma()).c_str());
+    ui->lineEdit_6->setDisabled(1);
+    ui->lineEdit_6->setText("0");
 }
 
 ParabolicInterface::~ParabolicInterface()
@@ -29,6 +31,7 @@ void ParabolicInterface::on_pushButton_clicked()
     l = ui->lineEdit_3->text().toStdString();
     T = ui->lineEdit_4->text().toStdString();
     a = ui->lineEdit_5->text().toStdString();
+    teta = ui->lineEdit_6->text().toStdString();
     if(ui->radioButton_4->isChecked())
     {
         method = MethodName::Analytic;
@@ -65,7 +68,7 @@ void ParabolicInterface::on_pushButton_clicked()
     }
 
     config_file << N << " " << K << std::endl;
-    config_file << l << " " << T << " " << a << std::endl;
+    config_file << l << " " << T << " " << a << " " << teta << std::endl;
     config_file << method << std::endl;
     this->close();
 }
@@ -110,4 +113,28 @@ void ParabolicInterface::on_lineEdit_4_textChanged(const QString &arg1)
 void ParabolicInterface::on_lineEdit_5_textChanged(const QString &arg1)
 {
     ui->label_6->setText(std::to_string(CalculateSigma()).c_str());
+}
+
+void ParabolicInterface::on_radioButton_4_clicked()
+{
+    ui->lineEdit_6->setDisabled(1);
+    ui->lineEdit_6->setText("0");
+}
+
+void ParabolicInterface::on_radioButton_clicked()
+{
+    ui->lineEdit_6->setDisabled(1);
+    ui->lineEdit_6->setText("0");
+}
+
+void ParabolicInterface::on_radioButton_2_clicked()
+{
+    ui->lineEdit_6->setDisabled(1);
+    ui->lineEdit_6->setText("1");
+}
+
+void ParabolicInterface::on_radioButton_3_clicked()
+{
+    ui->lineEdit_6->setEnabled(1);
+    ui->lineEdit_6->setText("0.5");
 }

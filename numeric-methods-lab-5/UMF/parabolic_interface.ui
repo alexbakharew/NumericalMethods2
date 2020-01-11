@@ -183,6 +183,16 @@
       </property>
      </widget>
     </item>
+    <item row="5" column="4" alignment="Qt::AlignHCenter">
+     <widget class="QLabel" name="label_9">
+      <property name="text">
+       <string>teta = </string>
+      </property>
+     </widget>
+    </item>
+    <item row="5" column="5">
+     <widget class="QLineEdit" name="lineEdit_6"/>
+    </item>
    </layout>
   </widget>
   <widget class="QMenuBar" name="menubar">

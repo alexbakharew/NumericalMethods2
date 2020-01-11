@@ -366,6 +366,11 @@ Vector Vector::Transposed() const
     return res;
 }
 
+std::vector<double> Vector::GetBuffer() const
+{
+    return buffer;
+}
+
 UnitMatrix::UnitMatrix(uint32_t size)
 {
     dim = size;

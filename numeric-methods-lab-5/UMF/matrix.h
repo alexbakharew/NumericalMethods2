@@ -62,7 +62,7 @@ public:
     long double Norm();
     Vector Transposed() const;
     bool IsTransposed();
-    std::vector<double> GetBuffer() {return buffer;}
+    std::vector<double> GetBuffer() const;
     friend class Matrix;
 private:
     bool is_transposed;

@@ -81,12 +81,13 @@ void ParabolicSolver::ImplicitSolve() const
             }
         }
         Tridiagonal tri_mat = matrix;
-        auto solution = tri_mat.SolveEqutation(res.GetBuffer());
-        auto tmp = solution.GetBuffer();
-        for(int k = 0; k < N; ++k)
+        auto solution = tri_mat.SolveEqutation(res);
+        for(int k = 1; k < N - 1; ++k)
         {
-            mesh[i][k] = tmp[k];
+            mesh[i][k] = solution[k];
         }
+        //std::copy(solution.GetBuffer().begin() + 1, solution.GetBuffer().end() - 1, mesh[i].begin());
+
     }
 }
 void ParabolicSolver::Crank_Nikolsn() const

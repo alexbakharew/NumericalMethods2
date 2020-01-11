@@ -19,8 +19,12 @@ Tridiagonal::Tridiagonal(const Matrix &m) : dim(m.GetDim())
     }
 
 }
+Vector Tridiagonal::SolveEqutation(const Vector& d)
+{
+    return SolveEqutation(d.GetBuffer());
+}
 
-Vector Tridiagonal::SolveEqutation(const std::vector<double> &d)
+Vector Tridiagonal::SolveEqutation(const std::vector<double>& d)
 {
 //    coeffs[i][0] = a_i;
 //    coeffs[i][1] = b_i;

@@ -37,7 +37,7 @@ int main(int argc, char* argv[])
     }
 
     const std::string config_name = "config.cfg";
-    const std::string python_script = "graphics.py";
+    const std::string python_script = "./graphics.py";
     QApplication app(argc, argv);
     ParabolicInterface parabolic_window;
     HyperbolicInterface hyperbolic_window;

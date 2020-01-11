@@ -1,4 +1,6 @@
 #include <cmath>
+#include "matrix.h"
+#include "tridiagonal.h"
 #include "hyperbolic_solver.h"
 double HyperbolicSolver::AnalyticFunction(double x, double t) const
 {
@@ -40,7 +42,7 @@ void HyperbolicSolver::init_second_layer() const
 {
     for(int i = 0; i < N; ++i)
     {
-        mesh[K - 1][i] = initial_condition_t0(i * h) + second_layer_condition(i * h) * tau;
+        mesh[K - 2][i] = initial_condition_t0(i * h) + second_layer_condition(i * h) * tau;
     }
 }
 
@@ -58,6 +60,41 @@ void HyperbolicSolver::ExplicitSolve() const
 
 void HyperbolicSolver::ImplicitSolve() const
 {
+    double a = sigma, c = sigma;
+    double b = 2 * sigma + 1;
+    for(int i = K - 3; i >= 0; --i)
+    {
+        Matrix matrix(N, 0);
+        Vector res(N);
+        for(int j = 0; j < N; ++j)
+        {
 
+            if(j == 0)
+            {
+                matrix[0][0] = b;
+                matrix[0][1] = c;
+                res[0] = - (mesh[i + 1][0]) + sigma * boundary_condition_x0(i * tau);
+            }
+            else if(j == N - 1)
+            {
+                matrix[N - 1][N - 2] = a;
+                matrix[N - 1][N - 1] = b;
+                res[N - 1] = - (mesh[i + 1][N - 1] + sigma * boundary_condition_xl(i * tau));
+            }
+            else
+            {
+                matrix[j][j - 1] = a;
+                matrix[j][j] = b;
+                matrix[j][j + 1] = c;
+                res[j] = mesh[i + 1][j] * (- 2 - 3 * tau) + mesh[i + 2][j];
+            }
+        }
+        Tridiagonal tri_mat = matrix;
+        auto solution = tri_mat.SolveEqutation(res);
+        for(int k = 1; k < N - 1; ++k)
+        {
+            mesh[i][k] = solution[k];
+        }
+    }
 }
 
