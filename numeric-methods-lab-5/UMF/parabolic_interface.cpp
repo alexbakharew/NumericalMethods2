@@ -87,8 +87,7 @@ double ParabolicInterface::CalculateSigma() const
     }
     double tau = T / K;
     double h = l / N;
-    auto tmp = (a * a * tau) /( h * h);
-    return tmp;
+    return (a * a * tau) / ( h * h);
 }
 void ParabolicInterface::on_lineEdit_textEdited(const QString &arg1)
 {

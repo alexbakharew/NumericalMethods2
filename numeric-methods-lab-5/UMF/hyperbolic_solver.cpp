@@ -91,7 +91,7 @@ void HyperbolicSolver::ImplicitSolve() const
         }
         Tridiagonal tri_mat = matrix;
         auto solution = tri_mat.SolveEqutation(res);
-        for(int k = 1; k < N - 1; ++k)
+        for(int k = 0; k < N; ++k)
         {
             mesh[i][k] = solution[k];
         }
