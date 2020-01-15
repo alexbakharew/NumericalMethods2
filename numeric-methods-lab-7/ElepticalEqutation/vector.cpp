@@ -9,13 +9,14 @@ Vector::Vector()
 Vector::Vector(uint32_t size) : dim(size)
 {
     is_transposed = false;
-    buffer = std::vector<double>(dim);
+    buffer.resize(dim);
 }
 
 Vector::Vector(uint32_t size, double val) : dim(size)
 {
     is_transposed = false;
-    buffer = std::vector<double>(dim, val);
+    buffer.resize(size);
+    std::fill(buffer.begin(), buffer.end(), val);
 }
 
 Vector::Vector(const std::vector<double>& other)
@@ -118,4 +119,35 @@ Vector Vector::Transposed() const
 std::vector<double> Vector::GetBuffer() const
 {
     return buffer;
+}
+std::variant<Matrix, double> Vector::operator * (const Vector& right)
+{
+    std::variant<Matrix, double> res;
+    if(dim != right.GetDim() || !(is_transposed ^ right.is_transposed))
+    {
+        res = Matrix(0);
+        return res;
+    }
+    if(is_transposed && !right.is_transposed)// 1x3 * 3x1 => 1x1
+    {
+        double mult = 0;
+        for(int i = 0; i < dim; ++ i)
+        {
+            mult += buffer[i] * right.buffer[i];
+        }
+        res = mult;
+    }
+    else
+    {
+        Matrix mult(dim);
+        for(int i = 0; i < dim; ++i)
+        {
+            for(int j = 0; j < dim; ++j)
+            {
+                mult[i][j] = buffer[i] * right.buffer[j];
+            }
+        }
+        res = mult;
+    }
+    return res;
 }

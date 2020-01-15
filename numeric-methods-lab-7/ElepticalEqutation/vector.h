@@ -2,6 +2,8 @@
 #define VECTOR_H
 #include <iostream>
 #include <vector>
+#include <variant>
+#include "matrix.h"
 class Vector
 {
 public:
@@ -24,6 +26,7 @@ public:
     Vector Transposed() const;
     bool IsTransposed();
     std::vector<double> GetBuffer() const;
+    std::variant<Matrix, double> operator * (const Vector& right);
 private:
     bool is_transposed;
     std::vector<double> buffer;
