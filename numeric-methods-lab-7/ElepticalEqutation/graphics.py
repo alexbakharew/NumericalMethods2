@@ -10,7 +10,7 @@ def HyperbolicAnalyticFunction(x, t):
     return math.cos(x) * math.sin(2 * t)
 
 def ElepticalAnalyticFunction(x,y):
-    return float(x) + y
+    return math.cos(x) * math.cos(y)
 
 def print_usage():
     print("TaskType N K l T a PlotName")
@@ -43,7 +43,7 @@ def main():
         N1 = int(sys.argv[2])
         N2 = int(sys.argv[3])
         plot_name = sys.argv[4]
-        h = 1 / N2
+        h = 3.14159 / N2
         plot_title = "Eleptical"
     else:
         print("unsupported task type. Exit")
@@ -59,7 +59,7 @@ def main():
             elif task_type == 2:
                 value = HyperbolicAnalyticFunction(h * i, T)
             elif task_type == 3:
-                value = ElepticalAnalyticFunction(float(h * i), 1)  
+                value = ElepticalAnalyticFunction(float(h * i), 3.14159)  
             y.append(value)
     #------------------------------------------------
     # Draw analytic function

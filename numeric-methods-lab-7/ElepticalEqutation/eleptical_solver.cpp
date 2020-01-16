@@ -6,29 +6,29 @@
 #include "solution_saver.h"
 double ElepticalSolver::initial_condition_x_0(double x) const
 {
-    return x;
+    return std::cos(x);
 }
 
 double ElepticalSolver::initial_condition_x_1(double x) const
 {
-    return x + 1;
+    return 0;
 }
 
 double ElepticalSolver::initial_condition_0_y(double y) const
 {
-    return y;
+    return std::cos(y);
 }
 
 double ElepticalSolver::initial_condition_1_y(double y) const
 {
-    return y + 1;
+    return 0;
 }
 
 ElepticalSolver::ElepticalSolver(double _N1, double _N2) :
     N1(_N1), N2(_N2)
 {
-    h1 = 1.0 / N1;
-    h2 = 1.0 / N2;
+    h1 = M_PI / N1;
+    h2 = M_PI / N2;
     epsilon = 0.1;
 }
 
@@ -80,7 +80,7 @@ double ElepticalSolver::make_interpolation() const
 }
 double ElepticalSolver::analytic_function(double x, double y) const
 {
-    return x + y;
+    return std::cos(x) * std::cos(y);
 }
 void ElepticalSolver::AnalyticSolution() const
 {
@@ -105,8 +105,8 @@ void ElepticalSolver::LibmanSolution() const
         {
             for(int j = 1; j < N2 - 1; ++j)
             {
-                curr_mesh[i][j] = (mesh[i + 1][j] * h2 *h2 - mesh[i - 1][j] * h2 * h2) +
-                        (mesh[i][j - 1] * h1 * h1 + mesh[i][j + 1] * h1 * h1);
+                curr_mesh[i][j] = 0.5 * ((mesh[i + 1][j] * h2 *h2 - mesh[i - 1][j] * h2 * h2) +
+                        (mesh[i][j - 1] * h1 * h1 + mesh[i][j + 1] * h1 * h1)) / ((h1 * h1) + (h2 * h2) + (h1 * h1 * h2 * h2));
             }
             u_k_max = std::max(u_k_max, *std::max_element(curr_mesh[i].begin(), curr_mesh[i].end()));
         }
