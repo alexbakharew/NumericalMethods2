@@ -8,7 +8,7 @@ public:
     virtual void AnalyticSolve() const override;
     virtual void ExplicitSolve() const override;
     virtual void ImplicitSolve() const override;
-    void Crank_Nikolsn() = delete;
+    void Crank_Nikolsn() const {};
 protected:
     virtual double AnalyticFunction(double x, double t) const override;
     virtual double initial_condition_t0(double x) const override;

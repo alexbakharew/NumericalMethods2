@@ -1,5 +1,6 @@
 ﻿#include <iostream>
 #include "parabolic_solver.h"
+#include "hyperbolic_solver.h"
 #include "parabolic_interface.h"
 #include "hyperbolic_interface.h"
 #include "solution_saver.h"
@@ -79,8 +80,11 @@ int main(int argc, char* argv[])
     };
 
     ReadDataFromConfig();
-    std::unique_ptr<BasicSolver> solver_ptr(new ParabolicSolver(N, K, l, T, a, MethodName(method), teta));
-
+    std::unique_ptr<BasicSolver> solver_ptr;
+    if(eq_type == 1)
+        solver_ptr.reset(new ParabolicSolver(N, K, l, T, a, MethodName(method), teta));
+    else
+        solver_ptr.reset(new HyperbolicSolver(N, K, l, T, a, MethodName(method), teta));
     solver_ptr->InitMesh();
     std::string method_name;
     if(method == MethodName::Analytic)

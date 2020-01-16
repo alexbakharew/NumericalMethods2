@@ -15,7 +15,7 @@ void BasicSolver::InitMesh()
    h = double(l) / N;
    tau = double(T) / K;
    sigma = (a * a * tau) / (h * h);
-   teta = .5;
+   //teta = .5;
    for(int i = 0; i < N; ++i)
    {
        mesh[K - 1][i] = initial_condition_t0(i * h);

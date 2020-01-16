@@ -52,9 +52,9 @@ void HyperbolicInterface::on_pushButton_clicked()
         msgBox.exec();
         return;
     }
-
+    double teta = 1, a  = 1;
     config_file << N << " " << K << std::endl;
-    config_file << l << " " << T << " " << 1 << std::endl;
+    config_file << l << " " << T << " " << a << " " << teta << std::endl;
     config_file << method << std::endl;
     this->close();
 }

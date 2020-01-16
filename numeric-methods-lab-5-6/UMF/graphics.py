@@ -3,13 +3,17 @@ import matplotlib.patches as mpatches
 import math
 import os
 import sys
+import numpy as np
 def ParabolicAnalyticFunction(a, x, t):
+    print("parabolic analytic")
     return math.exp( - a * t) * math.cos(x)
 
 def HyperbolicAnalyticFunction(x, t):
-    return math.cos(x) * math.sin(2 * t)
+    print("hyperbolic analytic")
+    return np.cos(x) * np.sin(2 * t)
 
 def ElepticalAnalyticFunction(x,y):
+    print("eleptical analytic")
     return float(x) + y
 
 def print_usage():
