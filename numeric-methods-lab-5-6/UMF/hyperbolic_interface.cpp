@@ -7,6 +7,7 @@ HyperbolicInterface::HyperbolicInterface(QWidget *parent) :
     ui(new Ui::HyperbolicInterface)
 {
     ui->setupUi(this);
+    ui->label_8->setText(std::to_string(CalculateSigma()).c_str());
 }
 
 HyperbolicInterface::~HyperbolicInterface()
@@ -29,19 +30,19 @@ void HyperbolicInterface::on_pushButton_clicked()
     l = ui->lineEdit_l->text().toStdString();
     T = ui->lineEdit_T->text().toStdString();
 
-    if(ui->radioButton_3->isChecked())
+    if(ui->radioButton->isChecked())
     {
         method = MethodName::Analytic;
     }
-    else if(ui->radioButton->isChecked())
+    else if(ui->radioButton_2->isChecked())
     {
         method = MethodName::Explicit;
     }
-    else if(ui->radioButton_2->isChecked())
+    else if(ui->radioButton_3->isChecked())
     {
         method = MethodName::Implicit;
     }
-
+    else exit(-1);
     std::fstream config_file("config.cfg", std::ios::out);
 
     if(!config_file.is_open())
@@ -53,7 +54,7 @@ void HyperbolicInterface::on_pushButton_clicked()
     }
 
     config_file << N << " " << K << std::endl;
-    config_file << l << " " << T << " " << std::endl;
+    config_file << l << " " << T << " " << 1 << std::endl;
     config_file << method << std::endl;
     this->close();
 }

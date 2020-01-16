@@ -138,7 +138,7 @@
     <item row="5" column="2">
      <widget class="QPushButton" name="pushButton">
       <property name="text">
-       <string>PushButton</string>
+       <string>Solve</string>
       </property>
      </widget>
     </item>

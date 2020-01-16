@@ -16,7 +16,7 @@ class BasicSolver// It is not a pure abstract class
     friend class SolutionSaver;
 public:
     BasicSolver(){}
-    explicit BasicSolver(int N, int K, double l, int T, double a, MethodName(method));
+    explicit BasicSolver(int N, int K, double l, int T, double a, MethodName(method), double teta = 0);
     virtual ~BasicSolver() {}
     void InitMesh();
     virtual void AnalyticSolve() const = 0;

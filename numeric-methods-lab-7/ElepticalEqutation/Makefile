@@ -1048,7 +1048,9 @@ eleptical_interface.o: eleptical_interface.cpp /usr/Qt/5.13.0/gcc_64/include/QtW
 		/usr/Qt/5.13.0/gcc_64/include/QtGui/qicon.h \
 		ui_eleptical_interface.h \
 		eleptical_solver.h \
-		solution_saver.h
+		solution_saver.h \
+		/usr/Qt/5.13.0/gcc_64/include/QtCore/QProcess \
+		/usr/Qt/5.13.0/gcc_64/include/QtCore/qprocess.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o eleptical_interface.o eleptical_interface.cpp
 
 matrix.o: matrix.cpp matrix.h \

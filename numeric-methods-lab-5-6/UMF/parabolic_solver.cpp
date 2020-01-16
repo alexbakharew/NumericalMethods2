@@ -40,7 +40,7 @@ void ParabolicSolver::ExplicitSolve() const
     {
         for(int j = 1; j < N - 1; ++j)
         {
-            mesh[i][j] = sigma * (mesh[i + 1][j + 1] - 2 * mesh[i + 1][j] + mesh[i + 1][j - 1]) + mesh[i + 1][j];
+            mesh[i][j] = a * sigma * (mesh[i + 1][j + 1] - 2 * mesh[i + 1][j] + mesh[i + 1][j - 1]) + mesh[i + 1][j];
             //            if(ApprType == ApproximationType::Zero)
             //            {
             //                mesh[i][0] = boundary_condition_x0(i * h);
@@ -51,8 +51,8 @@ void ParabolicSolver::ExplicitSolve() const
 }
 void ParabolicSolver::ImplicitSolve() const
 {
-    double a = sigma, c = sigma;
-    double b = - (1 + 2 * sigma);
+    double a1 = sigma * a, c1 = sigma * a;
+    double b1 = - (1 + 2 * sigma * a);
 
     for(int i = K - 2; i >= 0; --i)
     {
@@ -62,21 +62,21 @@ void ParabolicSolver::ImplicitSolve() const
         {
             if(j == 0)
             {
-                matrix[0][0] = b;
-                matrix[0][1] = c;
-                res[0] = - (mesh[i + 1][0]) + sigma * boundary_condition_x0(i * tau);
+                matrix[0][0] = b1;
+                matrix[0][1] = c1;
+                res[0] = - ((mesh[i + 1][0]) + sigma * boundary_condition_x0(i * tau));
             }
             else if(j == N - 1)
             {
-                matrix[N - 1][N - 2] = a;
-                matrix[N - 1][N - 1] = b;
+                matrix[N - 1][N - 2] = a1;
+                matrix[N - 1][N - 1] = b1;
                 res[N - 1] = - (mesh[i + 1][N - 1] + sigma * boundary_condition_xl(i * tau));
             }
             else
             {
-                matrix[j][j - 1] = a;
-                matrix[j][j] = b;
-                matrix[j][j + 1] = c;
+                matrix[j][j - 1] = a1;
+                matrix[j][j] = b1;
+                matrix[j][j + 1] = c1;
                 res[j] = - mesh[i + 1][j];
             }
         }
@@ -92,39 +92,40 @@ void ParabolicSolver::ImplicitSolve() const
 }
 void ParabolicSolver::Crank_Nikolsn() const
 {
-    double a = - teta * sigma, c = - teta * sigma;
-    double b = (1 + 2 * teta * sigma);
+    double a1 = - teta * sigma * a, c1 = - teta * sigma * a;
+    double b1 = (1 + 2 * teta * sigma * a);
     for(int i = K - 2; i >= 0; --i)
     {
         Matrix matrix(N, 0);
         Vector res(N);
         for(int j = 0; j < N; ++j)
         {
-            double explicit_part = (mesh[i + 1][j + 1] - 2 * mesh[i + 1][j] + mesh[i + 1][j - 1]);
+
             if(j == 0)
             {
-                matrix[0][0] = b;
-                matrix[0][1] = c;
-                res[0] = - (mesh[i + 1][0]) + sigma * boundary_condition_x0(i * tau) + (1 - teta) * explicit_part;
+                matrix[0][0] = b1;
+                matrix[0][1] = c1;
+                res[0] = - (mesh[i + 1][0]) + sigma * boundary_condition_x0(i * tau);
             }
             else if(j == N - 1)
             {
-                matrix[N - 1][N - 2] = a;
-                matrix[N - 1][N - 1] = b;
-                res[N - 1] = - (mesh[i + 1][N - 1] + sigma * boundary_condition_xl(i * tau) + (1 - teta) * explicit_part);
+                matrix[N - 1][N - 2] = a1;
+                matrix[N - 1][N - 1] = b1;
+                res[N - 1] = - (mesh[i + 1][N - 1] + sigma * boundary_condition_xl(i * tau));
             }
             else
             {
-                matrix[j][j - 1] = a;
-                matrix[j][j] = b;
-                matrix[j][j + 1] = c;
-                res[j] = (mesh[i + 1][j] + (1 - teta) * explicit_part);
+                double explicit_part = (mesh[i + 1][j + 1] - 2 * mesh[i + 1][j] + mesh[i + 1][j - 1]);
+                matrix[j][j - 1] = a1;
+                matrix[j][j] = b1;
+                matrix[j][j + 1] = c1;
+                res[j] = (mesh[i + 1][j] + (1 - teta) * a * explicit_part);
             }
         }
         Tridiagonal tri_mat = matrix;
         auto solution = tri_mat.SolveEqutation(res.GetBuffer());
         auto tmp = solution.GetBuffer();
-        for(int k = 0; k < N; ++k)
+        for(int k = 1; k < N - 1; ++k)
         {
             mesh[i][k] = tmp[k];
         }

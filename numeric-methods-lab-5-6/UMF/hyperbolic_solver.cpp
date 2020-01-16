@@ -61,7 +61,7 @@ void HyperbolicSolver::ExplicitSolve() const
 void HyperbolicSolver::ImplicitSolve() const
 {
     double a = sigma, c = sigma;
-    double b = 2 * sigma + 1;
+    double b = - 2 * sigma + 1;
     for(int i = K - 3; i >= 0; --i)
     {
         Matrix matrix(N, 0);
@@ -86,7 +86,7 @@ void HyperbolicSolver::ImplicitSolve() const
                 matrix[j][j - 1] = a;
                 matrix[j][j] = b;
                 matrix[j][j + 1] = c;
-                res[j] = mesh[i + 1][j] * (- 2 - 3 * tau) + mesh[i + 2][j];
+                res[j] = - (mesh[i + 1][j] * (- 2 - 3 * tau) + mesh[i + 2][j]);
             }
         }
         Tridiagonal tri_mat = matrix;

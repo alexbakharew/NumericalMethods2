@@ -1,11 +1,12 @@
 #include "basic_solver.h"
-BasicSolver::BasicSolver(int N, int K, double l, int T, double a, MethodName(method))
+BasicSolver::BasicSolver(int N, int K, double l, int T, double a, MethodName(method), double teta)
 {
     this->N = N;
     this->K = K;
     this->l = l;
     this->T = T;
     this->a = a;
+    this->teta = teta;
     this->MethName = method;
 }
 void BasicSolver::InitMesh()

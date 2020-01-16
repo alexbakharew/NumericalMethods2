@@ -42,15 +42,23 @@ int main(int argc, char* argv[])
     ParabolicInterface parabolic_window;
     HyperbolicInterface hyperbolic_window;
 
+    int eq_type;
     if(SelectionMsgBox())
+    {
+        eq_type = 2;
         hyperbolic_window.show();
+    }
     else
+    {
+        eq_type = 1;
         parabolic_window.show();
+    }
+
 
     app.exec();// execute preprocessor
 
     int N, K, T;
-    double l, a;
+    double l, a, teta;
     int method;
     auto ReadDataFromConfig = [&]()
     {
@@ -58,7 +66,7 @@ int main(int argc, char* argv[])
         try
         {
             config_file >> N >> K;
-            config_file >> l >> T >> a;
+            config_file >> l >> T >> a >> teta;
             config_file >> method;
         }
         catch(std::exception& e)
@@ -71,17 +79,31 @@ int main(int argc, char* argv[])
     };
 
     ReadDataFromConfig();
-    std::unique_ptr<BasicSolver> solver_ptr(new ParabolicSolver(N, K, l, T, a, MethodName(method)));
+    std::unique_ptr<BasicSolver> solver_ptr(new ParabolicSolver(N, K, l, T, a, MethodName(method), teta));
 
     solver_ptr->InitMesh();
+    std::string method_name;
     if(method == MethodName::Analytic)
+    {
         solver_ptr->AnalyticSolve();
+        method_name = "Analytic";
+    }
     else if(method == MethodName::Explicit)
+    {
         solver_ptr->ExplicitSolve();
+        method_name = "Explicit";
+    }
     else if(method == MethodName::Implicit)
-        solver_ptr->ImplicitSolve();
+    {
+       solver_ptr->ImplicitSolve();
+       method_name = "Implicit";
+    }
     else if(method == MethodName::Crank_Nikolsn)
+    {
         solver_ptr->Crank_Nikolsn();
+        method_name = "Crank_Nikolsn";
+    }
+
     else
     {
         std::cout << "Unsupported method name" << std::endl;
@@ -96,7 +118,9 @@ int main(int argc, char* argv[])
 
     QProcess p;
     QStringList params;
-    params << python_script.c_str();
+    params << python_script.c_str() << std::to_string(eq_type).c_str() << std::to_string(N).c_str() << std::to_string(K).c_str() << std::to_string(l).c_str() <<
+              std::to_string(T).c_str() << std::to_string(a).c_str() << method_name.c_str();
+
     p.startDetached("python3", params);
     p.waitForFinished(-1);
     return 0;

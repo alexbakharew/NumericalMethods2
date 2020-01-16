@@ -102,14 +102,14 @@
     <item row="0" column="1">
      <widget class="QLineEdit" name="lineEdit">
       <property name="text">
-       <string>10</string>
+       <string>100</string>
       </property>
      </widget>
     </item>
     <item row="1" column="1">
      <widget class="QLineEdit" name="lineEdit_2">
       <property name="text">
-       <string>20</string>
+       <string>200</string>
       </property>
      </widget>
     </item>
@@ -123,14 +123,14 @@
     <item row="3" column="1">
      <widget class="QLineEdit" name="lineEdit_4">
       <property name="text">
-       <string>20</string>
+       <string>15</string>
       </property>
      </widget>
     </item>
     <item row="4" column="1">
      <widget class="QLineEdit" name="lineEdit_5">
       <property name="text">
-       <string>0.2</string>
+       <string>0.01</string>
       </property>
      </widget>
     </item>
