@@ -71,7 +71,7 @@ double HyperbolicInterface::CalculateSigma() const
     }
     double tau = T / K;
     double h = l / N;
-    return tau / ( h * h);
+    return (tau * tau) / (h * h);
 }
 void HyperbolicInterface::on_lineEdit_N_textChanged(const QString &arg1)
 {
