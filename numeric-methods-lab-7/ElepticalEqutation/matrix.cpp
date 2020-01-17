@@ -36,7 +36,17 @@ Matrix::Matrix(const std::vector<Vector> v, size_t size) : dim(size)
 }
 Matrix::Matrix(const std::vector<std::vector<double>>& m)
 {
-    matrix = m;
+    if(m.size() == m[0].size())
+    {
+        matrix = m;
+        dim = m.size();
+    }
+    else
+    {
+        std::cout << "Can not create matrix due not eaual sides!" << std::endl;
+        exit(-1);
+    }
+
 }
 std::vector<double>& Matrix::operator [](uint32_t idx)
 {

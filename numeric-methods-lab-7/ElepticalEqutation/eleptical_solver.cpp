@@ -24,54 +24,52 @@ double ElepticalSolver::initial_condition_1_y(double y) const
     return 0;
 }
 
-ElepticalSolver::ElepticalSolver(double _N1, double _N2) :
-    N1(_N1), N2(_N2)
+ElepticalSolver::ElepticalSolver(int _N, double _eps) :
+    N(_N)
 {
-    h1 = M_PI / N1;
-    h2 = M_PI / N2;
-    epsilon = 0.1;
+    h = M_PI / 2 / N;
 }
 
 bool ElepticalSolver::InitMesh() const
 {
     try
     {
-        mesh.resize(N1);
+        mesh.resize(N);
         for(auto &line : mesh)
-            line.resize(N2);
+            line.resize(N);
     }
     catch(...)
     {
         return false;
     }
 
-    for(int i = 0; i < N1; ++i)
+    for(int i = 0; i < N; ++i)
     {
-        mesh[i][0] = initial_condition_0_y(i * h1);
-        mesh[i][N2 - 1] = initial_condition_1_y(i * h1);
+        mesh[i][0] = initial_condition_0_y(i * h);
+        mesh[i][N - 1] = initial_condition_1_y(i * h);
     }
 
-    for(int j = 0; j < N2; ++j)
+    for(int j = 0; j < N; ++j)
     {
-        mesh[0][j] = initial_condition_x_0(j * h2);
-        mesh[N2 - 1][j] = initial_condition_x_1(j * h2);
+        mesh[0][j] = initial_condition_x_0(j * h);
+        mesh[N - 1][j] = initial_condition_x_1(j * h);
     }
     return true;
 }
 
 double ElepticalSolver::interpolation_function(double y_left, double y_right, double x_curr) const
 {
-    return (y_right - y_left) * x_curr + y_left;
+    return ((y_right - y_left) * x_curr) + y_left;
 }
 
 double ElepticalSolver::make_interpolation() const
 {
-    double u_k_max = mesh[0][0]; // Initial value
-    for(int i = 1; i < N1 - 1; ++i)
+    double u_k_max = -1; // Initial value
+    for(int i = 1; i < N - 1; ++i)
     {
-        for(int j = 1; j < N2 - 1; ++j)
+        for(int j = 1; j < N - 1; ++j)
         {
-            mesh[i][j] = interpolation_function(mesh[i][0], mesh[i][N2 - 1], j * h2);
+            mesh[i][j] = interpolation_function(mesh[i][0], mesh[i][N - 1], j * h);
         }
         u_k_max = std::max(u_k_max, *std::max_element(mesh[i].begin(), mesh[i].end()));
     }
@@ -84,11 +82,11 @@ double ElepticalSolver::analytic_function(double x, double y) const
 }
 void ElepticalSolver::AnalyticSolution() const
 {
-    for(int i = 0; i < N1; ++i)
+    for(int i = 0; i < N; ++i)
     {
-        for(int j = 0; j < N2; ++j)
+        for(int j = 0; j < N; ++j)
         {
-            mesh[i][j] = analytic_function(i * h1, j * h2);
+            mesh[i][j] = analytic_function(i * h, j * h);
         }
     }
 }
@@ -96,22 +94,28 @@ void ElepticalSolver::AnalyticSolution() const
 void ElepticalSolver::LibmanSolution() const
 {
     double u_k_max_prev = make_interpolation();
-    double u_k_max = mesh[0][0];
-    while(fabs(u_k_max - u_k_max_prev) >= epsilon)
+    double u_k_max = -1;
+    int iters = 0;
+    do
     {
-        u_k_max_prev = u_k_max;
         decltype (mesh) curr_mesh = mesh;
-        for(int i = 1; i < N1 - 1; ++i)
+        for(int i = 1; i < N - 1; ++i)
         {
-            for(int j = 1; j < N2 - 1; ++j)
+            for(int j = 1; j < N - 1; ++j)
             {
-                curr_mesh[i][j] = 0.5 * ((mesh[i + 1][j] * h2 *h2 - mesh[i - 1][j] * h2 * h2) +
-                        (mesh[i][j - 1] * h1 * h1 + mesh[i][j + 1] * h1 * h1)) / ((h1 * h1) + (h2 * h2) + (h1 * h1 * h2 * h2));
+                curr_mesh[i][j] = (mesh[i + 1][j] - mesh[i - 1][j] + mesh[i][j + 1] + mesh[i][j + 1]) / (4 - h * h);
             }
             u_k_max = std::max(u_k_max, *std::max_element(curr_mesh[i].begin(), curr_mesh[i].end()));
         }
         mesh = curr_mesh;
-    }
+        ++iters;
+        if(fabs(u_k_max - u_k_max_prev) >= epsilon)
+            u_k_max_prev = u_k_max;
+
+        else
+            break;
+    }while(true);
+    std::cout << iters << std::endl;
 }
 
 void ElepticalSolver::SLAESolution(bool is_zeydel) const
@@ -122,13 +126,13 @@ void ElepticalSolver::SLAESolution(bool is_zeydel) const
     {
         Vector res;
         if(is_zeydel)
-            res = Zeydel::SolveEqutation(mesh, Vector(N1, 0), 1e10);
+            res = Zeydel::SolveEqutation(mesh, Vector(N, 0), 1e10);
         else
-            res = SimpleIteration::SolveEqutation(mesh, Vector(N1, 0), 1e10);
+            res = SimpleIteration::SolveEqutation(mesh, Vector(N, 0), 1e10);
         u_k_max_prev = u_k_max;
-        for(int i = 0; i < N1; ++i)
+        for(int i = 0; i < N; ++i)
         {
-            for(int j = 0; j < N2; ++j)
+            for(int j = 0; j < N; ++j)
             {
                 mesh[i][j] *= res[j];
             }

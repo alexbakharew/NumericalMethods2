@@ -9,7 +9,7 @@
 #include "solution_saver.h"
 #include <QProcess>
 class ElepticalSolver;
-const std::string python_script = "./graphics.py";
+const std::string python_script = "./draw_eleptical.py";
 ElepticalInterface::ElepticalInterface(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::ElepticalInterface)
@@ -24,11 +24,12 @@ ElepticalInterface::~ElepticalInterface()
 
 void ElepticalInterface::on_pushButton_clicked()
 {
-    int N1, N2;
+    int N;
+    double eps;
     try
     {
-        N1 = std::stoi(ui->lineEdit_N1->text().toStdString());
-        N2 = std::stoi(ui->lineEdit_N2->text().toStdString());
+        N = std::stoi(ui->lineEdit_N->text().toStdString());
+        eps = std::stod(ui->lineEdit_eps->text().toStdString());
     }
     catch (...)
     {
@@ -36,7 +37,7 @@ void ElepticalInterface::on_pushButton_clicked()
         msg_box.setText("All values should be numeric!");
         return;
     }
-    ElepticalSolver slv(N1, N2);
+    ElepticalSolver slv(N, eps);
     slv.InitMesh();
     std::string method_name;
     if(ui->radioButton_4->isChecked())
@@ -68,7 +69,7 @@ void ElepticalInterface::on_pushButton_clicked()
     SolutionSaver::SaveResults(slv, "res.txt");
     QProcess p;
     QStringList params;
-    params << python_script.c_str() << "3" << std::to_string(N1).c_str() << std::to_string(N2).c_str() << method_name.c_str();
+    params << python_script.c_str() << std::to_string(N).c_str() << method_name.c_str();
 
     std::cout << p.startDetached("python3", params) << std::endl;
     p.waitForFinished(-1);

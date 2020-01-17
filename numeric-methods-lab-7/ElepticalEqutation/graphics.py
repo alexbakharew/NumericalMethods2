@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
+from mpl_toolkits import mplot3d
 import math
 import os
 import sys
@@ -13,90 +14,37 @@ def ElepticalAnalyticFunction(x,y):
     return math.cos(x) * math.cos(y)
 
 def print_usage():
-    print("TaskType N K l T a PlotName")
-    print("TaskType N1 N2 PlotName")
+    print("usage:")
+    print("N PlotName")
 
-colors = ["b", "g", "r", "c", "y", "b"]
+colors = ["b", "g", "r", "c", "y", "black"]
 config_file = "res.txt"
-COUNT = 3 # Amount of graphics
+max_x = math.pi / 2
+max_y = math.pi / 2
 
 def main():
-    if (len(sys.argv) != 8) and (len(sys.argv)!= 5):
+    if len(sys.argv) != 3:
         print_usage()
         exit(-1)
-    x = []
-    y = []
-    handles = []
-    plot_title = str()
-    N = K = l = T = a = N1 = N2 = h = plot_name = str()
-    task_type = int(sys.argv[1])
-    if (task_type == 1) or (task_type == 2):
-        N = int(sys.argv[2])
-        K = int(sys.argv[3])
-        l = float(sys.argv[4])
-        T = int(sys.argv[5])
-        a = float(sys.argv[6])
-        plot_name = sys.argv[7]
-        h = float(l / N)
-        plot_title = "Parabolic" if task_type == 1 else "Hyperbolic"
-    elif task_type == 3:
-        N1 = int(sys.argv[2])
-        N2 = int(sys.argv[3])
-        plot_name = sys.argv[4]
-        h = 3.14159 / N2
-        plot_title = "Eleptical"
-    else:
-        print("unsupported task type. Exit")
-        exit(-2)
-    color_count = 0
-    def analytic_drawer(N, K, l, T, a, N1, N2, task_type):
-        bound = N if task_type <=2 else N2
-        for i in range(bound):
-            x.append(h * i)
-            value = float()
-            if task_type == 1:
-                value = ParabolicAnalyticFunction(a, h * i, T)
-            elif task_type == 2:
-                value = HyperbolicAnalyticFunction(h * i, T)
-            elif task_type == 3:
-                value = ElepticalAnalyticFunction(float(h * i), 3.14159)  
-            y.append(value)
-    #------------------------------------------------
-    # Draw analytic function
-    analytic_drawer(N, K, l, T, a, N1, N2, task_type)
-    plt.plot(x, y, color=colors[color_count])
-    plot_label = mpatches.Patch(color=colors[color_count], label='Analytic')
-    handles.append(plot_label)
-    color_count += 1
-    #------------------------------------------------
-    # Draw numeric function from config file
+    N = int(sys.argv[1])
+    plot_name = sys.argv[2]
+    h = N / max_x
+    X = []
+    Y = []
+    Z = []
 
-    if os.stat(config_file).st_size == 0:
-        exit(-3)
-
-    with open(config_file) as input:
-        curr_str = input.readline()
-        str_count = 0
-        time_count = int(K) if task_type <= 2 else int(N1)
-        while len(curr_str) != 0:
-            if int(str_count % (time_count / COUNT)) == 0:
-                y.clear()
-                for val in curr_str.strip("\n").split(" "):
-                    if val != "":
-                        y.append(float(val)) # append y values
-                plt.plot(x, y, color=colors[color_count]) # add plot to scene with unique color
-                plot_label = mpatches.Patch(color=colors[color_count], label='Numeric_' + str(color_count))
-                handles.append(plot_label) # append plot name to a legend
-                color_count += 1 # change further plot color
-            curr_str = input.readline() # read next line
-            str_count += 1 # increase count
+    for i in range(N):
+        X.append(i * h)
+        for j in range(N):
+            Y.append(j * h)
+            Z.append(ElepticalAnalyticFunction(i * h, j * h))
     
-    plt.title(plot_title + "_" + plot_name)
-    plt.ylabel('value')
-    plt.xlabel('length')
-    plt.legend(handles=handles)
-    plt.show()
-    
+    fig = plt.figure()
+    ax = plt.axes(projection='3d')
+    ax.contour3D(X, Y, Z, color="red")
+    ax.set_xlabel('x')
+    ax.set_ylabel('y')
+    ax.set_zlabel('z');
 
 if __name__ == "__main__":
     main()

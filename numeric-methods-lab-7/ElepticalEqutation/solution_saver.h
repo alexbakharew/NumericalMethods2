@@ -12,10 +12,10 @@ public:
         std::fstream result(path, std::ios::out);
         if(!result.is_open())
             return false;
-        for(int i = 0; i < slv.N1; ++i)
+        for(int i = 0; i < slv.N; ++i)
         {
             std::string line;
-            for(int j = 0; j < slv.N2; ++j)
+            for(int j = 0; j < slv.N; ++j)
             {
                 line += std::to_string(slv.mesh[i][j]) + " ";
             }
