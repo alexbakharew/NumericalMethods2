@@ -9,6 +9,7 @@
 #include "solution_saver.h"
 #include <QProcess>
 class ElepticalSolver;
+//const std::string python_script = "./graphics.py";
 const std::string python_script = "./draw_eleptical.py";
 ElepticalInterface::ElepticalInterface(QWidget *parent) :
     QMainWindow(parent),

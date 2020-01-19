@@ -28,6 +28,7 @@ ElepticalSolver::ElepticalSolver(int _N, double _eps) :
     N(_N)
 {
     h = M_PI / 2 / N;
+    epsilon = _eps;
 }
 
 bool ElepticalSolver::InitMesh() const
@@ -103,15 +104,14 @@ void ElepticalSolver::LibmanSolution() const
         {
             for(int j = 1; j < N - 1; ++j)
             {
-                curr_mesh[i][j] = (mesh[i + 1][j] - mesh[i - 1][j] + mesh[i][j + 1] + mesh[i][j + 1]) / (4 - h * h);
+                curr_mesh[i][j] = .25 * (mesh[i][j + 1] + mesh[i][j - 1] + mesh[i + 1][j] + mesh[i - 1][j] + (h * h * mesh[i][j]));
             }
-            u_k_max = std::max(u_k_max, *std::max_element(curr_mesh[i].begin(), curr_mesh[i].end()));
+            u_k_max = std::max(u_k_max, *std::max_element(curr_mesh[i].begin() + 1, curr_mesh[i].end() - 1));
         }
         mesh = curr_mesh;
         ++iters;
         if(fabs(u_k_max - u_k_max_prev) >= epsilon)
             u_k_max_prev = u_k_max;
-
         else
             break;
     }while(true);
