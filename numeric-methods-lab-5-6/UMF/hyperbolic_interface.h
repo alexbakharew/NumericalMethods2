@@ -26,10 +26,12 @@ private slots:
 
     void on_lineEdit_T_textChanged(const QString &arg1);
 
+    void on_lineEdit_a_textChanged(const QString &arg1);
+
 private:
     double CalculateSigma() const;
     std::string N, K, T;
-    std::string l;
+    std::string l, a;
     MethodName method;
     Ui::HyperbolicInterface *ui;
 };

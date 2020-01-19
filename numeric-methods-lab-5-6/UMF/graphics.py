@@ -8,9 +8,9 @@ def ParabolicAnalyticFunction(a, x, t):
     print("parabolic analytic")
     return math.exp( - a * t) * math.cos(x)
 
-def HyperbolicAnalyticFunction(x, t):
+def HyperbolicAnalyticFunction(a, x, t):
     print("hyperbolic analytic")
-    return np.cos(x) * np.sin(2 * t)
+    return np.sin(x - a * t)
 
 def ElepticalAnalyticFunction(x,y):
     print("eleptical analytic")
@@ -20,9 +20,9 @@ def print_usage():
     print("TaskType N K l T a PlotName")
     print("TaskType N1 N2 PlotName")
 
-colors = ["b", "g", "r", "c", "y", "b"]
+colors = ["b", "g", "r", "c", "y", "m"]
 config_file = "res.txt"
-COUNT = 3 # Amount of graphics
+COUNT = 5 # Amount of graphics
 
 def main():
     if (len(sys.argv) != 8) and (len(sys.argv)!= 5):
@@ -61,7 +61,7 @@ def main():
             if task_type == 1:
                 value = ParabolicAnalyticFunction(a, h * i, T)
             elif task_type == 2:
-                value = HyperbolicAnalyticFunction(h * i, T)
+                value = HyperbolicAnalyticFunction(a, h * i, T)
             elif task_type == 3:
                 value = ElepticalAnalyticFunction(float(h * i), 1)  
             y.append(value)

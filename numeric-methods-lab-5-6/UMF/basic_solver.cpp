@@ -14,7 +14,7 @@ void BasicSolver::InitMesh()
    mesh = std::vector<std::vector<long double>>(K, std::vector<long double>(N, 0.0));
    h = double(l) / N;
    tau = double(T) / K;
-   sigma = (a * a * tau) / (h * h);
+   sigma = (a * a * tau * tau) / (h * h);
    //teta = .5;
    for(int i = 0; i < N; ++i)
    {
