@@ -10,6 +10,7 @@ SOURCES += \
         hyperbolic_solver.cpp \
         main.cpp \
         matrix.cpp \
+        parab_hyperb_solver.cpp \
         parabolic_interface.cpp \
         parabolic_solver.cpp \
         solution_saver.cpp \
@@ -21,6 +22,7 @@ HEADERS += \
     hyperbolic_solver.h \
     matrix.h \
     methods.h \
+    parab_hyperb_solver.h \
     parabolic_interface.h \
     parabolic_solver.h \
     solution_saver.h \

@@ -1,14 +1,14 @@
 #ifndef HYPERBOLICSOLVER_H
 #define HYPERBOLICSOLVER_H
-#include "basic_solver.h"
-class HyperbolicSolver : public BasicSolver
+#include "parab_hyperb_solver.h"
+class HyperbolicSolver : public ParabHyperbSolver
 {
 public:
-    using BasicSolver::BasicSolver;
+    using ParabHyperbSolver::ParabHyperbSolver;
     virtual void AnalyticSolve() const override;
     virtual void ExplicitSolve() const override;
     virtual void ImplicitSolve() const override;
-    void Crank_Nikolsn() const {};
+    void Crank_Nikolsn() const {}
 protected:
     virtual double AnalyticFunction(double x, double t) const override;
     virtual double initial_condition_t0(double x) const override;

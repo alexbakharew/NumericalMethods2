@@ -1,11 +1,11 @@
 #ifndef ParabolicSolver_H
 #define ParabolicSolver_H
-#include "basic_solver.h"
-class ParabolicSolver : public BasicSolver
+#include "parab_hyperb_solver.h"
+class ParabolicSolver : public ParabHyperbSolver
 {
 
 public:
-    using BasicSolver::BasicSolver; // Explicitly inherit constructor from base class
+    using ParabHyperbSolver::ParabHyperbSolver; // Explicitly inherit constructor from base class
     virtual void AnalyticSolve() const override; // we still need members definition even though we inherit them
     virtual void ExplicitSolve() const override;
     virtual void ImplicitSolve() const override;

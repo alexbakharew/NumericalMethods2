@@ -2,7 +2,7 @@
 #include <fstream>
 #include <iomanip>
 #include<stdio.h>
-bool SolutionSaver::SaveResults(const std::string &path, const std::unique_ptr<BasicSolver>& slv)
+bool SolutionSaver::SaveResults(const std::string &path, const std::unique_ptr<ParabHyperbSolver>& slv)
 {
     remove(path.c_str());
     std::fstream output(path, std::ios::out);

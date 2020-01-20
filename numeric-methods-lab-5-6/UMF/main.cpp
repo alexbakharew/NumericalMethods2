@@ -80,7 +80,7 @@ int main(int argc, char* argv[])
     };
 
     ReadDataFromConfig();
-    std::unique_ptr<BasicSolver> solver_ptr;
+    std::unique_ptr<ParabHyperbSolver> solver_ptr;
     if(eq_type == 1)
         solver_ptr.reset(new ParabolicSolver(N, K, l, T, a, MethodName(method), teta));
     else
