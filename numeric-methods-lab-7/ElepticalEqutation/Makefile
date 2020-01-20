@@ -53,13 +53,11 @@ OBJECTS_DIR   = ./
 ####### Files
 
 SOURCES       = eleptical_solver.cpp \
-		equtation_solver.cpp \
 		main.cpp \
 		eleptical_interface.cpp \
 		matrix.cpp \
 		vector.cpp moc_eleptical_interface.cpp
 OBJECTS       = eleptical_solver.o \
-		equtation_solver.o \
 		main.o \
 		eleptical_interface.o \
 		matrix.o \
@@ -245,11 +243,9 @@ DIST          = /usr/Qt/5.13.0/gcc_64/mkspecs/features/spec_pre.prf \
 		/usr/Qt/5.13.0/gcc_64/mkspecs/features/lex.prf \
 		ElepticalEqutation.pro eleptical_interface.h \
 		eleptical_solver.h \
-		equtation_solver.h \
 		matrix.h \
 		solution_saver.h \
 		vector.h eleptical_solver.cpp \
-		equtation_solver.cpp \
 		main.cpp \
 		eleptical_interface.cpp \
 		matrix.cpp \
@@ -639,8 +635,8 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents /usr/Qt/5.13.0/gcc_64/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents eleptical_interface.h eleptical_solver.h equtation_solver.h matrix.h solution_saver.h vector.h $(DISTDIR)/
-	$(COPY_FILE) --parents eleptical_solver.cpp equtation_solver.cpp main.cpp eleptical_interface.cpp matrix.cpp vector.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents eleptical_interface.h eleptical_solver.h matrix.h solution_saver.h vector.h $(DISTDIR)/
+	$(COPY_FILE) --parents eleptical_solver.cpp main.cpp eleptical_interface.cpp matrix.cpp vector.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents eleptical_interface.ui $(DISTDIR)/
 
 
@@ -809,16 +805,10 @@ compiler_clean: compiler_moc_predefs_clean compiler_moc_header_clean compiler_ui
 ####### Compile
 
 eleptical_solver.o: eleptical_solver.cpp eleptical_solver.h \
-		equtation_solver.h \
-		matrix.h \
 		vector.h \
+		matrix.h \
 		solution_saver.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o eleptical_solver.o eleptical_solver.cpp
-
-equtation_solver.o: equtation_solver.cpp matrix.h \
-		vector.h \
-		equtation_solver.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o equtation_solver.o equtation_solver.cpp
 
 main.o: main.cpp eleptical_interface.h \
 		/usr/Qt/5.13.0/gcc_64/include/QtWidgets/QMainWindow \

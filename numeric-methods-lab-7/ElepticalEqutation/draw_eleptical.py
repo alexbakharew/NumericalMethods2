@@ -23,34 +23,6 @@ result_file = "res.txt"
 max_x = math.pi / 2
 max_y = math.pi / 2
 
-def f1():
-    handles = []
-    ax1 = plt.axes(projection='3d')
-    Z1 = ElepticalAnalyticFunction(X, Y)
-    ax1.contour3D(X, Y, Z1, 50)
-    
-    plot_label = mpatches.Patch(color="blue", label='Analytic')
-    handles.append(plot_label)
-    plt.show()
-def f2():
-
-    ax = plt.axes(projection='3d')
-
-
-    Z2 = []
-    with open(result_file) as result:
-        line = result.readline()
-        while len(line) != 0:
-            curr = [float(x) for x in line.split()]
-            Z2.append(curr)
-            line = result.readline()
-    
-    Z2 = np.array(Z2)
-    ax.contour3D(X, Y, Z2, 50)
-
-    plot_label = mpatches.Patch(color="red", label='Numeric')
-    plt.show()
-
 def main():
     if len(sys.argv) != 3:
         print_usage()
@@ -61,22 +33,36 @@ def main():
     h = N / max_x
     x = np.linspace(0, max_x, N) 
     y = np.linspace(0, max_y, N)
-    global X
-    global Y
     X, Y = np.meshgrid(x,y)
 
-    f1()
-    f2()
-
+    ax1 = plt.axes(projection='3d')
+    Z1 = ElepticalAnalyticFunction(X, Y)
+    ax1.contour3D(X, Y, Z1, 50)
     
-    
+    plt.title("Eleptical_Analytic")
+    plt.show()
 
-    #fig = plt.figure()
-    # ax.legend(handles=handles)
-    # ax.set_xlabel('x')
-    # ax.set_ylabel('y')
-    # ax.set_zlabel('z')
-    # plt.title(plot_name)
-    # plt.show()
+
+    ax = plt.axes(projection='3d')
+
+    Z2 = []
+    with open(result_file) as result:
+        line = result.readline()
+        while len(line) != 0:
+            curr = [float(x) for x in line.split()]
+            Z2.append(curr)
+            line = result.readline()
+    
+    Z2 = np.array(Z2)
+
+    print("Max diff = {}".format(abs(np.max(Z1 - Z2))))
+    print("Min diff = {}".format(abs(np.min(Z1 - Z2))))
+
+    print("MSE = {}".format(np.sqrt(np.sum(Z1 - Z2) ** 2) / (N * N)))
+    print("MAE = {}".format((np.sum(Z1 - Z2) ** 2) / (N * N)))
+    ax.contour3D(X, Y, Z2, 50)
+
+    plt.title("Eleptical_" + plot_name)
+    plt.show()
 if __name__ == "__main__":
     main()

@@ -10,9 +10,9 @@ public:
     ElepticalSolver(int N, double _eps);
     bool InitMesh() const;
     void LibmanSolution() const;
-    void SLAESolution(bool is_zeydel) const;
+    void ZeydelSolution() const;
     void AnalyticSolution() const;
-    //void SimpleIterationSolution() const;
+    void RelaxationSolution() const;
 private:
     double analytic_function(double x, double y) const;
     double initial_condition_x_0(double x) const;

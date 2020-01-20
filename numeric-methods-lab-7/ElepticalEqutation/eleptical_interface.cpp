@@ -51,15 +51,15 @@ void ElepticalInterface::on_pushButton_clicked()
          slv.LibmanSolution();
          method_name = "Libman";
     }
-    else if(ui->radioButton_2->isChecked())
-    {
-        slv.SLAESolution(true);
-        method_name = "Zeydel";
-    }
     else if(ui->radioButton_3->isChecked())
     {
-        slv.SLAESolution(false);
-        method_name = "SimpleIteration";
+        slv.ZeydelSolution();
+        method_name = "Zeydel";
+    }
+    else if(ui->radioButton_2->isChecked())
+    {
+        slv.RelaxationSolution();
+        method_name = "Relaxation";
     }
     else
     {

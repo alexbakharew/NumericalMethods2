@@ -1,7 +1,6 @@
 #include "eleptical_solver.h"
 #include <algorithm>
 #include <cmath>
-#include "equtation_solver.h"
 #include "vector.h"
 #include "solution_saver.h"
 double ElepticalSolver::initial_condition_x_0(double x) const
@@ -115,28 +114,61 @@ void ElepticalSolver::LibmanSolution() const
         else
             break;
     }while(true);
-    std::cout << iters << std::endl;
+    std::cout << "Iterations = " << iters << std::endl;
 }
 
-void ElepticalSolver::SLAESolution(bool is_zeydel) const
+void ElepticalSolver::ZeydelSolution() const
 {
     double u_k_max_prev = make_interpolation();
     double u_k_max = 0;
-    while(fabs(u_k_max - u_k_max_prev) >= epsilon)
+    int iters = 0;
+    do
     {
-        Vector res;
-        if(is_zeydel)
-            res = Zeydel::SolveEqutation(mesh, Vector(N, 0), 1e10);
-        else
-            res = SimpleIteration::SolveEqutation(mesh, Vector(N, 0), 1e10);
+        decltype(mesh) curr_mesh = mesh;
         u_k_max_prev = u_k_max;
-        for(int i = 0; i < N; ++i)
+        for(int i = 1; i < N - 1; ++i)
         {
-            for(int j = 0; j < N; ++j)
+            for(int j = 1; j < N - 1; ++j)
             {
-                mesh[i][j] *= res[j];
+                curr_mesh[i][j] = .25 * (curr_mesh[i][j - 1] + mesh[i][j + 1] + curr_mesh[i + 1][j] + mesh[i - 1][j]) + (h * h * 0.5 * mesh[i][j]);
             }
-            u_k_max = std::max(u_k_max, *std::max_element(mesh[i].begin(), mesh[i].end()));
+            u_k_max = std::max(u_k_max, *std::max_element(curr_mesh[i].begin() + 1, curr_mesh[i].end() - 1));
         }
-    }
+        mesh = curr_mesh;
+        ++iters;
+        if(fabs(u_k_max - u_k_max_prev) >= epsilon)
+            u_k_max_prev = u_k_max;
+        else
+            break;
+    } while(true);
+    std::cout << "Iterations = " << iters << std::endl;
+}
+
+void ElepticalSolver::RelaxationSolution() const
+{
+    double relax_param = 1.3;
+    double u_k_max_prev = make_interpolation();
+    double u_k_max = 0;
+    int iters = 0;
+    do
+    {
+        decltype(mesh) curr_mesh = mesh;
+        u_k_max_prev = u_k_max;
+        for(int i = 1; i < N - 1; ++i)
+        {
+            for(int j = 1; j < N - 1; ++j)
+            {
+                curr_mesh[i][j] = relax_param * 0.25 * (curr_mesh[i][j - 1] + curr_mesh[i + 1][j] + mesh[i][j + 1] + mesh[i - 1][j]) -
+                        relax_param * (1 - (1 / relax_param)) * mesh[i][j] + (2 * mesh[i][j] * relax_param * h * h * 0.25);
+            }
+            u_k_max = std::max(u_k_max, *std::max_element(curr_mesh[i].begin() + 1, curr_mesh[i].end() - 1));
+        }
+        mesh = curr_mesh;
+        ++iters;
+        if(fabs(u_k_max - u_k_max_prev) >= epsilon)
+            u_k_max_prev = u_k_max;
+        else
+            break;
+    } while(true);
+    std::cout << "Iterations = " << iters << std::endl;
 }
