@@ -27,7 +27,6 @@ CONFIG += console
 
 SOURCES += \
         eleptical_solver.cpp \
-        equtation_solver.cpp \
         main.cpp \
         eleptical_interface.cpp \
         matrix.cpp \
@@ -36,7 +35,6 @@ SOURCES += \
 HEADERS += \
         eleptical_interface.h \
         eleptical_solver.h \
-        equtation_solver.h \
         matrix.h \
         solution_saver.h \
         vector.h

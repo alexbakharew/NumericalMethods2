@@ -18,7 +18,7 @@ HyperbolicInterface::~HyperbolicInterface()
 void HyperbolicInterface::on_pushButton_clicked()
 {
     if(ui->lineEdit_N->text().isEmpty() || ui->lineEdit_K->text().isEmpty() ||
-            ui->lineEdit_l->text().isEmpty() || ui->lineEdit_T->text().isEmpty())
+            ui->lineEdit_l->text().isEmpty() || ui->lineEdit_T->text().isEmpty() || ui->lineEdit_a->text().isEmpty())
     {
         QMessageBox msgBox;
         msgBox.setText("Please fill all values!");
@@ -29,6 +29,7 @@ void HyperbolicInterface::on_pushButton_clicked()
     K = ui->lineEdit_K->text().toStdString();
     l = ui->lineEdit_l->text().toStdString();
     T = ui->lineEdit_T->text().toStdString();
+    a = ui->lineEdit_a->text().toStdString();
 
     if(ui->radioButton->isChecked())
     {
@@ -52,7 +53,7 @@ void HyperbolicInterface::on_pushButton_clicked()
         msgBox.exec();
         return;
     }
-    double teta = 1, a  = 1;
+    double teta = 1;
     config_file << N << " " << K << std::endl;
     config_file << l << " " << T << " " << a << " " << teta << std::endl;
     config_file << method << std::endl;
@@ -60,18 +61,19 @@ void HyperbolicInterface::on_pushButton_clicked()
 }
 double HyperbolicInterface::CalculateSigma() const
 {
-    double N, K, l, T;
+    double N, K, l, T, a;
     try {
         N = stod(ui->lineEdit_N->text().toStdString());
         K = stod(ui->lineEdit_K->text().toStdString());
         l = stod(ui->lineEdit_l->text().toStdString());
         T = stod(ui->lineEdit_T->text().toStdString());
+        a = stod(ui->lineEdit_a->text().toStdString());
     } catch (...) {
         return 0;
     }
     double tau = T / K;
     double h = l / N;
-    return (tau * tau) / (h * h);
+    return (tau * tau * a * a) / ( h * h);
 }
 void HyperbolicInterface::on_lineEdit_N_textChanged(const QString &arg1)
 {
@@ -89,6 +91,11 @@ void HyperbolicInterface::on_lineEdit_l_textChanged(const QString &arg1)
 }
 
 void HyperbolicInterface::on_lineEdit_T_textChanged(const QString &arg1)
+{
+    ui->label_8->setText(std::to_string(CalculateSigma()).c_str());
+}
+
+void HyperbolicInterface::on_lineEdit_a_textChanged(const QString &arg1)
 {
     ui->label_8->setText(std::to_string(CalculateSigma()).c_str());
 }
